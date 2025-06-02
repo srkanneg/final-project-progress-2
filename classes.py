@@ -1,3 +1,5 @@
+tasks = []
+
 class Task:
     def __init__(self, name, description, due_date, category, time, completed, location) -> None:
         self.name = name
@@ -9,12 +11,10 @@ class Task:
         self.location = location
 
     def __str__(self) -> str:
-        return "name: {}, description: {}, due_date: {}, category: {}, time: {}, completed: {}, location: {}".format(
-            self.name, self.description, self.due_date, self.category, self.time, self.completed, self.location)
+        return "The name of the task is: \"{}\"\nThe description is: \"{}\"\nThe due-date is: {}\nThe category of task is: \"{}\"\nThe time of day it is due is: {}\nIs the task completed?: {}\nThe location of the task is: \"{}\"".format(self.name, self.description, self.due_date, self.category, self.time, self.completed, self.location)
 
     def __repr__(self) -> str:
-        return "Task {}, {}, {}, {}, {}, {}, {}".format(self.name, self.description, self.due_date, self.category,
-                                                        self.time, self.completed, self.location)
+        return "The name of the task is: \"{}\"\nThe description is: \"{}\"\nThe due-date is: {}\nThe category of task is: \"{}\"\nThe time of day it is due is: {}\nIs the task completed?: {}\nThe location of the task is: \"{}\"".format(self.name, self.description, self.due_date, self.category, self.time, self.completed, self.location)
 
     def mark_as_complete(self):
         self.completed = True
@@ -36,17 +36,17 @@ class TodoList:
     def __repr__(self):
         return "To-do list {}".format(self.task)
 
-    def add_task(self, task:Task):
-        tasks.append(task)
+    def add_task(self):
+        tasks.append(self.task)
 
-    def remove_task(self, task:Task):
+    def remove_task(self):
         updated_tasks = []
-        if task in tasks:
+        if self.task in tasks:
             for i in tasks:
-                if task not in i:
+                if self.task not in i:
                     updated_tasks.append(i)
 
-    def view_tasks(self, tasks:list[Task])->list[Task]:
+    def view_tasks(self)->list[Task]:
         for i in range(1, len(tasks)):
             temp = tasks[i]
             j = i - 1

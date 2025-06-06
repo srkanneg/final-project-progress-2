@@ -13,80 +13,77 @@ class Task:
     def __str__(self) -> str:
         return "The name of the task is: \"{}\"\nThe description is: \"{}\"\nThe due-date is: {}\nThe category of task is: \"{}\"\nThe time of day it is due is: {}\nIs the task completed?: {}\nThe location of the task is: \"{}\"".format(self.name, self.description, self.due_date, self.category, self.time, self.completed, self.location)
 
-    def __repr__(self) -> str:
-        return "The name of the task is: \"{}\"\nThe description is: \"{}\"\nThe due-date is: {}\nThe category of task is: \"{}\"\nThe time of day it is due is: {}\nIs the task completed?: {}\nThe location of the task is: \"{}\"".format(self.name, self.description, self.due_date, self.category, self.time, self.completed, self.location)
+    # def __repr__(self) -> str:
+    #     return "The name of the task is: \"{}\"\nThe description is: \"{}\"\nThe due-date is: {}\nThe category of task is: \"{}\"\nThe time of day it is due is: {}\nIs the task completed?: {}\nThe location of the task is: \"{}\"".format(self.name, self.description, self.due_date, self.category, self.time, self.completed, self.location)
 
-    def mark_as_complete(self):
-        self.completed = True
-
-    def get_status(self):
-        if self.completed:
-            print("Status: Completed")
-        else:
-            print("Status: In progress")
 
 
 class TodoList:
-    def __init__(self, task: Task):
-        self.task = task
-
-    def __str__(self):
-        return "Task: {}".format(self.task)
-
-    def __repr__(self):
-        return "To-do list {}".format(self.task)
+    def __init__(self, task_name: str = None):
+        self.task_name = task_name
+    
+    def get_status(self):
+        ins_tasks = []
+        for i in range(len(tasks)):
+            if self.task_name == tasks[i].name and tasks[i].completed:
+                ins_tasks.append(tasks[i])
+        if len(ins_tasks) == 1:
+            print("\nStatus: Completed")
+        elif len(ins_tasks) == 0:
+            print("\nStatus: In Progress")
+        else:
+            print("\nSomething went wrong, please reach out to the developers.")
+    
+    def mark_as_complete(self):
+        for i in range(len(tasks)):
+            if self.task_name == tasks[i].name:
+                tasks[i].completed = True
+        print("The task was marked as complete if the right name was given. Nothing happened if the task name does not exist or was entered incorrectly.\n")
+        
+    def mark_as_incomplete(self):
+        for i in range(len(tasks)):
+            if self.task_name == tasks[i].name:
+                tasks[i].completed = False
+        print("The task was marked as incomplete if the right name was given. Nothing happened if the task name does not exist or was entered incorrectly.\n")
 
     def add_task(self):
-        tasks.append(self.task)
-
+        tasks.append(self.task_name)
+    
     def remove_task(self):
-        updated_tasks = []
-        if self.task in tasks:
-            for i in tasks:
-                if self.task not in i:
-                    updated_tasks.append(i)
+        for x in range(len(tasks)): # Supposed to be a function that takes a list of Task objects and removes the ones that the user wants to remove
+            if self.task_name == tasks[x].name:
+                tasks.remove(tasks[x])
+                break
 
-    def view_tasks(self)->list[Task]:
-        for i in range(1, len(tasks)):
-            temp = tasks[i]
-            j = i - 1
-            while j >= 0 and temp.due_date < tasks[j].due_date:
-                tasks[j + 1] = tasks[j]
-                j -= 1
-            tasks[j + 1] = temp
-        return tasks
+    def view_completed_tasks(self):
+        complete_tasks = []
+        for j in range(len(tasks)):
+            if tasks[j].completed == True:
+                complete_tasks.append(tasks[j])
+        if len(complete_tasks) == 0:
+            print("\nThere are no completed tasks.")
+        for x in range(len(complete_tasks)):
+            print("\n" + complete_tasks[x].name)
+        complete_tasks = []
 
-    def view_completed_tasks(self, tasks:list[Task])->list[Task]:
-        updated_tasks = []
-        for i in range(1, len(tasks)):
-            temp = tasks[i]
-            j = i - 1
-            while j >= 0 and temp.due_date < tasks[j].due_date:
-                tasks[j + 1] = tasks[j]
-                j -= 1
-            tasks[j + 1] = temp
-        for j in tasks:
-            if tasks[j].completed:
-                updated_tasks.append(tasks[j])
-        return updated_tasks
-
-    def view_incomplete_tasks(self, tasks:list[Task])->list[Task]:
-        updated_tasks = []
-        for i in range(1, len(tasks)):
-            temp = tasks[i]
-            j = i - 1
-            while j >= 0 and temp.due_date < tasks[j].due_date:
-                tasks[j + 1] = tasks[j]
-                j -= 1
-            tasks[j + 1] = temp
-        for j in tasks:
+    def view_incomplete_tasks(self):
+        incomplete_tasks = []
+        for j in range(len(tasks)):
             if tasks[j].completed == False:
-                updated_tasks.append(tasks[j])
-        return updated_tasks
+                incomplete_tasks.append(tasks[j])
+        if len(incomplete_tasks) == 0:
+            print("\nThere are no incomplete tasks.")
+        for x in range(len(incomplete_tasks)):
+            print("\n" + incomplete_tasks[x].name)
+        incomplete_tasks = []
 
-    def view_category(self, tasks:list[Task], category:str)->list[Task]:
-        updated_tasks = []
-        for task in tasks:
-            if task.category == category:
-                updated_tasks.append(task)
-        return updated_tasks
+    def view_category(self):
+        category_tasks = []
+        for j in range(len(tasks)):
+            if tasks[j].category == self.task_name:
+                category_tasks.append(tasks[j])
+        if len(category_tasks) == 0:
+            print("There are no tasks in this category.")
+        for x in range(len(category_tasks)):
+            print("\n" + category_tasks[x].name)
+        category_tasks = []

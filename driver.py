@@ -1,7 +1,8 @@
 import classes
+import functions
 
 while True:
-    entry = input("\nWhat would you like to do? (Options: add task, remove task, view tasks, view_completed_tasks, exit): ")
+    entry = input("\nWhat would you like to do? (Options: add task, remove task, view tasks, view completed tasks, view incomplete tasks, view category, get status, export to file, exit): ")
     
     if entry == "add task":
         name = input("\nWhat will be the name of the task?: ")
@@ -34,53 +35,63 @@ while True:
         location = input("\nWhere will the task be completed?: ")
         obj = classes.Task(name, description, due_date, category, time, completed, location)
         print("\nTask created successfully! The details of this task are: \n\n" + str(obj) + "\n")
-        classes.TodoList(obj).add_task()
+        to_do_object = classes.TodoList(obj)
+        add_list = to_do_object.add_task()
         continue
     
     elif entry == "remove task":
-        print("These are the current tasks: ")
-        for i in range(len(classes.tasks)): # Supposed to be a function to print the name of each task in the to-do list given a list of Task objects
-            print("\n" + classes.tasks[i].name)
+        print("\nThe to-do list currently consists of: \n")
+        functions.view_tasks()
         which = input("\nEnter the name of the task that you want to remove exactly as shown above or enter \"exit\" to return back to the main menu: ")
         if which == "exit":
             continue
-        for x in range(len(classes.tasks)): # Supposed to be a function that takes a list of Task objects and removes the ones that the user wants to remove
-            if which == classes.tasks[x].name:
-                classes.tasks.remove(classes.tasks[x])
-                break
-        print("\nTask removed successfully! The to-do list is now:")
-        if len(classes.tasks) == 0:
-            print("Empty")
-        for i in range(len(classes.tasks)):
-            print("\n" + classes.tasks[i].name)
+        classes.TodoList(which).remove_task()
+        print("\nThe to-do list now consists of: \n")
+        functions.view_tasks()
         continue
     
     elif entry == "view tasks":
-        print("\nThe total list of to-do list tasks are: ")
-        for i in range(1, len(classes.tasks)): # Supposed to be a function that takes a list of Task objects and sorts it by due date in ascending order
-            temp = classes.tasks[i]
-            j = i - 1
-            while j >= 0 and temp.due_date < classes.tasks[j].due_date:
-                classes.tasks[j + 1] = classes.tasks[j]
-                j -= 1
-            classes.tasks[j + 1] = temp
-        for i in range(len(classes.tasks)): # Supposed to be a function to print the name of each task in the to-do list given a list of Task objects
-            print(classes.tasks[i].name + "\n")
+        print("\nThe to-do list currently consists of: \n")
+        functions.view_tasks()
+        continue
             
     elif entry == "view completed tasks":
-        updated_tasks = []
-        for i in range(1, len(classes.tasks)): # Supposed to be a function that takes a list of Task objects and sorts it by due date in ascending order
-            temp = classes.tasks[i]
-            j = i - 1
-            while j >= 0 and temp.due_date < classes.tasks[j].due_date:
-                classes.tasks[j + 1] = classes.tasks[j]
-                j -= 1
-            classes.tasks[j + 1] = temp
-        for j in classes.tasks: # Supposed to be a function that takes a list of Task objects and filters out the ones that are not complete
-            if classes.tasks[j].completed == False:
-                updated_tasks.append(classes.tasks[j])
-        for x in range(len(updated_tasks)): # Supposed to be a function to print the name of each task in the to-do list given a list of Task objects
-            print(updated_tasks[x].name + "\n")
+        print("\nThe completed tasks are: ")
+        functions.sort_due_date()
+        classes.TodoList().view_completed_tasks()
+        continue
+    
+    elif entry == "view incomplete tasks":
+        print("\nThe incomplete tasks are: ")
+        functions.sort_due_date()
+        classes.TodoList().view_incomplete_tasks()
+        continue
+        
+    elif entry == "view category":
+        print("\nThe current categories are: ")
+        functions.view_categories()
+        which = input("\nEnter the name of the category that you want to view the tasks for. Enter exactly as shown or enter \"exit\" to return back to the main menu: ")
+        if which == "exit":
+            continue
+        print("\nThe tasks in this category are: ")
+        classes.TodoList(which).view_category()
+        continue
+    
+    elif entry == "get status":
+        print("\nThe to-do list currently consists of: \n")
+        functions.view_tasks()
+        which = input("Enter the name of the task exactly as shown above to get the status of it, or type \"exit\" to return back to the main menu: ")
+        if which == "exit":
+            continue
+        classes.TodoList(which).get_status()
+        continue
+        
+    elif entry == "export to file":
+        with open("exported_to_do_list.txt", "w") as file:
+            for i in range(len(classes.tasks)):
+                file.write("\n{}".format(str(classes.tasks[i])))
+        print("\nMust type \"exit\" for export to take place.")
+        continue
 
     elif entry == "exit":
         break

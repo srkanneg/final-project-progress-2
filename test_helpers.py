@@ -1,3 +1,5 @@
+import classes
+
 def get_status(task_name, task_list):
     matching_tasks = [task for task in task_list if task.name == task_name and task.completed]
     if len(matching_tasks) == 1:
@@ -42,3 +44,51 @@ def view_incomplete_tasks(task_list):
 def view_category(category, task_list):
     result = [task.name for task in task_list if task.category == category]
     return result or ["There are no tasks in this category."]
+
+
+def sort_due_date(task_list):
+    for i in range(1, len(task_list)):
+        temp = task_list[i]
+        j = i - 1
+        while j >= 0 and temp.due_date < task_list[j].due_date:
+            task_list[j + 1] = task_list[j]
+            j -= 1
+        task_list[j + 1] = temp
+    return task_list
+
+
+def sort_cat_alpha(task_list):
+    for i in range(1, len(task_list)):
+        temp = task_list[i]
+        j = i - 1
+        while j >= 0 and temp.category < task_list[j].category:
+            task_list[j + 1] = task_list[j]
+            j -= 1
+        task_list[j + 1] = temp
+    return task_list
+
+
+def print_list(task_list):
+    return [task.name for task in task_list]
+
+
+def view_tasks(task_list):
+    if not task_list:
+        return ["Empty"]
+    sorted_list = sort_due_date(task_list.copy())
+    return print_list(sorted_list)
+
+
+def collect_categories(task_list):
+    categories = []
+    for task in task_list:
+        if task.category not in categories:
+            categories.append(task.category)
+    return categories
+
+
+def view_categories(task_list):
+    if not task_list:
+        return ["There are no categories"]
+    sorted_list = sort_cat_alpha(task_list.copy())
+    return collect_categories(sorted_list)

@@ -1,6 +1,6 @@
 import classes
 
-def view_tasks() -> None:
+def view_tasks() -> None: # prints a sorted list of Task objects
     if len(classes.tasks) == 0:
         print("Empty\n")
     sort_due_date()
@@ -15,7 +15,7 @@ def sort_due_date() -> None:
             j -= 1
         classes.tasks[j + 1] = temp
 
-def sort_cat_alpha() -> None:
+def sort_cat_alpha() -> None: # sorts a list of Task objects based on their category, in alphabetical order
     for i in range(1, len(classes.tasks)):
         temp = classes.tasks[i]
         j = i - 1
@@ -28,14 +28,14 @@ def print_list(thing: list[classes.Task] = classes.tasks) -> None: # Supposed to
     for i in range(len(thing)):
         print(thing[i].name + "\n")
         
-def collect_categories() -> list[str]:
+def collect_categories() -> list[str]: # loops through a list of Task objects and appends the category of each Task object to a new list, with no duplicates
     categories = []
     for i in range(len(classes.tasks)):
         if classes.tasks[i].category not in categories:
             categories.append(classes.tasks[i].category)
     return categories
 
-def view_categories() -> None:
+def view_categories() -> None: # gets the categories of a list of Task objects and prints a sorted list of the categories
     if len(classes.tasks) == 0:
         print("There are no categories\n")
     sort_cat_alpha()

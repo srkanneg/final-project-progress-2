@@ -8,7 +8,13 @@ from test_helpers import (
     remove_task,
     view_completed_tasks,
     view_incomplete_tasks,
-    view_category
+    view_category,
+    view_tasks,
+    sort_due_date,
+    sort_cat_alpha,
+    print_list,
+    collect_categories,
+    view_categories
 )
 
 class TestTaskHelpers(unittest.TestCase):
@@ -82,6 +88,59 @@ class TestTaskHelpers(unittest.TestCase):
         # when category is not found
         result = view_category("Shopping", tasks)
         self.assertEqual(result, ["There are no tasks in this category."])
+
+    def test_view_tasks(self):
+        tasks = [
+            Task("A", "", "2025-07-01", "School", "", False, ""),
+            Task("B", "", "2025-06-01", "Work", "", False, "")
+        ]
+        result = view_tasks(tasks)
+        self.assertEqual(result, ["B", "A"])
+
+    def test_sort_due_date(self):
+        tasks = [
+            Task("A", "", "2025-07-01", "School", "", False, ""),
+            Task("B", "", "2025-06-01", "Work", "", False, "")
+        ]
+        result = sort_due_date(tasks)
+        self.assertEqual([t.name for t in result], ["B", "A"])
+
+    def test_sort_cat_alpha(self):
+        tasks = [
+            Task("A", "", "2025-07-01", "School", "", False, ""),
+            Task("B", "", "2025-06-01", "Work", "", False, "")
+        ]
+        result = sort_cat_alpha(tasks)
+        self.assertEqual([t.category for t in result], ["School", "Work"])
+
+    def test_print_list(self):
+        tasks = [
+            Task("A", "", "2025-07-01", "School", "", False, ""),
+            Task("B", "", "2025-06-01", "Work", "", False, "")
+        ]
+        result = print_list(tasks)
+        self.assertEqual(result, ["A", "B"])
+
+    def test_collect_categories(self):
+        tasks = [
+            Task("A", "", "2025-07-01", "School", "", False, ""),
+            Task("B", "", "2025-06-01", "Work", "", False, "")
+        ]
+        result = collect_categories(tasks)
+        self.assertEqual(set(result), {"School", "Work"})
+
+    def test_view_categories(self):
+        tasks = [
+            Task("A", "", "2025-07-01", "School", "", False, ""),
+            Task("B", "", "2025-06-01", "Work", "", False, "")
+        ]
+        result = view_categories(tasks)
+        self.assertEqual(result, ["School", "Work"])
+
+    def test_view_categories2(self): # if tasks is empty
+        tasks = []
+        result = view_categories(tasks)
+        self.assertEqual(result, ["There are no categories"])
 
 
 if __name__ == '__main__':

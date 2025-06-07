@@ -1,8 +1,10 @@
+# Sriyans is the author of this file
+
 import classes
 import functions
 
 while True:
-    entry = input("\nWhat would you like to do? (Options: add task, remove task, view tasks, view completed tasks, view incomplete tasks, view category, get status, export to file, exit): ")
+    entry = input("\nWhat would you like to do? (Options: add task, remove task, view task, view tasks, view completed tasks, view incomplete tasks, view category, get status, export to file, exit): ")
     
     if entry == "add task":
         name = input("\nWhat will be the name of the task?: ")
@@ -50,6 +52,15 @@ while True:
         functions.view_tasks()
         continue
     
+    elif entry == "view task":
+        print("\nThe to-do list currently consists of: \n")
+        functions.view_tasks()
+        which = input("\nEnter the name of the task exactly as shown above or type \"exit\" to return back to the main menu: ")
+        if which == "exit":
+            continue
+        classes.TodoList(which).view_task()
+        continue
+        
     elif entry == "view tasks":
         print("\nThe to-do list currently consists of: \n")
         functions.view_tasks()
@@ -89,7 +100,7 @@ while True:
     elif entry == "export to file":
         with open("exported_to_do_list.txt", "w") as file:
             for i in range(len(classes.tasks)):
-                file.write("\n{}".format(str(classes.tasks[i])))
+                file.write("\n{}\n".format(str(classes.tasks[i])))
         print("\nMust type \"exit\" for export to take place.")
         continue
 

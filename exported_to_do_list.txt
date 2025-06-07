@@ -1,0 +1,8 @@
+
+The name of the task is: "test1"
+The description is: "fwefe"
+The due-date is: 223424
+The category of task is: "test1"
+The time of day it is due is: 24324
+Is the task completed?: True
+The location of the task is: "fewf"

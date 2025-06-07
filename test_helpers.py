@@ -1,3 +1,5 @@
+# Jack is the author of this file and this file houses functions only used for unit testing
+
 import classes
 
 def get_status(task_name, task_list):
@@ -28,6 +30,17 @@ def add_task(new_task, task_list):
     task_list.append(new_task)
     return task_list
 
+def view_task(task_name, task_list):
+    y = True
+    for i in range(len(task_list)):
+        if task_name == task_list[i].name:
+            y = True
+            break
+        else:
+            y = False
+            break
+    return y
+        
 
 def remove_task(task_name, task_list):
     return [task for task in task_list if task.name != task_name]
